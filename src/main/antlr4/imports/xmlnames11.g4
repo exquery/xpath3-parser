@@ -23,19 +23,19 @@
  *
  * @author Adam Retter <adam.retter@googlemail.com>
  */
-grammar xmlnames11;
+grammar XMLNames11;
 
-import xml11;
+import XML11;
 
 
 /** [4] NCName ::= NCNameStartChar NCNameChar*	//An XML Name, minus the ":" */
 nCName : nCNameStartChar nCNameChar ;
 
 /** [5] NCNameChar ::= NameChar - ':' */
-nCNameChar : NameChar ~ COLON_CHAR ;
+nCNameChar : NameChar { !$NameChar.text.equals(":") } ;
 
 /** [6] NCNameStartChar ::= NameStartChar - ':' */
-nCNameStartChar : NameStartChar ~ COLON_CHAR ;
+nCNameStartChar : NameStartChar { !$NameStartChar.text.equals(":") } ;
 
 /**
  * [7] QName ::= PrefixedName
@@ -55,6 +55,3 @@ prefix : nCName ;
 
 /** [11] LocalPart ::= NCName */
 localPart : nCName ;
-
-
-COLON_CHAR : ':' ;
