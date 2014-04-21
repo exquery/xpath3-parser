@@ -26,7 +26,7 @@
 lexer grammar XML11;
 
 @lexer::members {
-    public enum LexerChannel { COMMENTS };
+    public static final int COMMENTS_CHANNEL = 2;
 }
 
 /** [2] Char ::= [#x1-#xD7FF] | [#xE000-#xFFFD] | [#x10000-#x10FFFF]
