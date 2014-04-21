@@ -128,7 +128,7 @@ castableExpr : castExpr (CASTABLE AS singleType)? ;
 castExpr : unaryExpr (CAST AS singleType)? ;
 
 /** [29] UnaryExpr ::= ("-" | "+")* ValueExpr */
-unaryExpr : (HYPHEN_MINUS_CHAR | PLUS_SIGN_CAR)* valueExpr ;
+unaryExpr : (HYPHEN_MINUS_CHAR | PLUS_SIGN_CHAR)* valueExpr ;
 
 /** [30] ValueExpr ::= SimpleMapExpr */
 valueExpr : simpleMapExpr ;
@@ -363,7 +363,7 @@ commentTest : COMMENT LEFT_PARENTHESIS_CHAR RIGHT_PARENTHESIS_CHAR ;
 namespaceNodeTest : NAMESPACE_NODE LEFT_PARENTHESIS_CHAR RIGHT_PARENTHESIS_CHAR ;    
     
 /** [77] PITest ::= "processing-instruction" "(" (NCName | StringLiteral)? ")" */
-pITest : PROCESSING_INSTUCTION LEFT_PARENTHESIS_CHAR (nCName | stringLiteral)? RIGHT_PARENTHESIS_CHAR ;
+pITest : PROCESSING_INSTRUCTION LEFT_PARENTHESIS_CHAR (nCName | stringLiteral)? RIGHT_PARENTHESIS_CHAR ;
     
 /** [78] AttributeTest ::= "attribute" "(" (AttribNameOrWildcard ("," TypeName)?)? ")" */
 attributeTest : ATTRIBUTE LEFT_PARENTHESIS_CHAR (attribNameOrWildcard (COMMA_CHAR typeName)?)? RIGHT_PARENTHESIS_CHAR ;     
@@ -429,13 +429,13 @@ integerLiteral : Digits ;
  *
  * //ws: explicit
  */
-decimalLiteral : (FULL_STOP_CHAR Digits) | (Digits FULL_STOP_CHAR '0'..'9'*) ;
+decimalLiteral : (FULL_STOP_CHAR Digits) | (Digits FULL_STOP_CHAR Digits?) ;
     
 /** [97] DoubleLiteral ::= (("." Digits) | (Digits ("." [0-9]*)?)) [eE] [+-]? Digits
  *
  * //ws: explicit
  */
-doubleLiteral : ((FULL_STOP_CHAR Digits) | (Digits (FULL_STOP_CHAR '0'..'9'*)?)) ('e' | 'E') (PLUS_SIGN_CHAR | HYPHEN_MINUS_CHAR)? Digits ;
+doubleLiteral : ((FULL_STOP_CHAR Digits) | (Digits (FULL_STOP_CHAR Digits?)?)) ('e' | 'E') (PLUS_SIGN_CHAR | HYPHEN_MINUS_CHAR)? Digits ;
     
 /** [98] StringLiteral ::= ('"' (EscapeQuot | [^"])* '"') | ("'" (EscapeApos | [^'])* "'")
  *
@@ -479,7 +479,7 @@ comment : LEFT_PARENTHESIS_CHAR COLON_CHAR (CommentContents | comment)* COLON_CH
 Digits : [0-9]+ ;
 
 /** [108] CommentContents ::= (Char+ - (Char* ('(:' | ':)') Char*)) */
-CommentContents : Char+ { $Char+.text.indexOf("(:") + $Char+.text.indexOf(":)") == 0  } ; //TODO
+CommentContents : Char+ { System.out.println(getText());  } ; //TODO
 
 
 
@@ -507,6 +507,9 @@ CASTABLE        : 'castable' ;
 CAST            : 'cast' ;
 FUNCTION        : 'function' ;
 EMPTY_SEQUENCE  : 'empty-sequence' ;
+DIV             : 'div' ;
+IDIV            : 'idiv' ;
+MOD             : 'mod' ;
 
 CHILD               : 'child' ;
 DESCENDANT          : 'descendant' ;
@@ -520,6 +523,7 @@ ANCESTOR            : 'ancestor' ;
 ANCESTOR_OR_SELF    : 'ancestor-or-self' ;
 PRECEDING_SIBLING   : 'preceding-sibling' ;
 PRECEDING           : 'preceding' ;
+IS                  : 'is' ;
 
 NAMESPACE               : 'namespace' ;
 ITEM                    : 'item' ;
@@ -530,13 +534,15 @@ COMMENT                 : 'comment' ;
 NAMESPACE_NODE          : 'namespace-node' ;
 PROCESSING_INSTRUCTION  : 'processing-instruction' ;
 SCHEMA_ELEMENT          : 'schema-element' ;
+SCHEMA_ATTRIBUTE        : 'schema-attribute' ;
+ELEMENT                 : 'element' ;
 
 AXIS_NODE_SYMBOL    : '::' ;
 ATTRIBUTE_SYMBOL    : COMMERCIAL_AT_CHAR ;
 
 OR_SYMBOL           : '||' ;
 PRECEDES_SYMBOL     : '<<' ;
-FOLLOWS_SYMBOL      : '<<' ;
+FOLLOWS_SYMBOL      : '>>' ;
 CHILDREN_SYMBOL     : SOLIDUS_CHAR ;
 DESCENDANTS_SYMBOL  : '//' ;
 REVERSE_SYMBOL      : '..' ;
