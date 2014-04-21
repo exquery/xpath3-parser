@@ -27,6 +27,17 @@ grammar XPath3;
 
 import XMLNames11;
 
+@lexer::members {
+    
+    /**
+     * Determines whether a string contains
+     * the start of end of an XPath comment
+     */
+    final boolean containsComment(final String text) {
+        return text.contains("(:") || text.contains(":)");
+    }
+}
+
 
 /** [1] XPath ::= Expr */
 xpath : expr ;
@@ -479,7 +490,7 @@ comment : LEFT_PARENTHESIS_CHAR COLON_CHAR (CommentContents | comment)* COLON_CH
 Digits : [0-9]+ ;
 
 /** [108] CommentContents ::= (Char+ - (Char* ('(:' | ':)') Char*)) */
-CommentContents : Char+ { System.out.println(getText());  } ; //TODO
+CommentContents : Char+ { !containsComment(getText()) }? -> channel(COMMENTS_CHANNEL) ;
 
 
 
