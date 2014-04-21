@@ -23,7 +23,11 @@
  *
  * @author Adam Retter <adam.retter@googlemail.com>
  */
-grammar XML11;
+lexer grammar XML11;
+
+@lexer::members {
+    public enum LexerChannel { COMMENTS };
+}
 
 /** [2] Char ::= [#x1-#xD7FF] | [#xE000-#xFFFD] | [#x10000-#x10FFFF]
  *
@@ -41,11 +45,11 @@ S : ('\u0020' | '\u0009' | '\u000D' | '\u000A')+ -> skip ;
 NameStartChar : COLON_CHAR | 'A'..'Z' | UNDERSCORE_CHAR | 'a'..'z' | '\u00C0'..'\u00D6' | '\u00D8'..'\u00F6' | '\u00F8'..'\u02FF' | '\u0370'..'\u037D' | '\u037F'..'\u1FFF' | '\u200C'..'\u200D' | '\u2070'..'\u218F' | '\u2C00'..'\u2FEF' | '\u3001'..'\uD7FF' | '\uF900'..'\uFDCF' | '\uFDF0'..'\uFFFD' | '\u10000'..'\uEFFFF' ;
 
 /** [4a] NameChar ::= NameStartChar | "-" | "." | [0-9] | #xB7 | [#x0300-#x036F] | [#x203F-#x2040] */
-NameChar : NameStartChar | HYPEN_MINUS_CHAR | FULL_STOP_CHAR | '0'..'9' | '\u00B7' | '\u0300'..'\u036F' | '\u203F'..'\u2040' ;
+NameChar : NameStartChar | HYPHEN_MINUS_CHAR | FULL_STOP_CHAR | '0'..'9' | '\u00B7' | '\u0300'..'\u036F' | '\u203F'..'\u2040' ;
 
 
 
 COLON_CHAR : ':' ;
 UNDERSCORE_CHAR : '_' ;
-HYPEN_MINUS_CHAR : '-' ;
+HYPHEN_MINUS_CHAR : '-' ;
 FULL_STOP_CHAR : '.' ;
