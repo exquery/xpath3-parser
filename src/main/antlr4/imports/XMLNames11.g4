@@ -29,13 +29,7 @@ import XML11;
 
 
 /** [4] NCName ::= NCNameStartChar NCNameChar*	//An XML Name, minus the ":" */
-nCName : nCNameStartChar nCNameChar ;
-
-/** [5] NCNameChar ::= NameChar - ':' */
-nCNameChar : NameChar { !$NameChar.text.equals(":") } ;
-
-/** [6] NCNameStartChar ::= NameStartChar - ':' */
-nCNameStartChar : NameStartChar { !$NameStartChar.text.equals(":") } ;
+nCName : NCNameStartChar NCNameChar* ;
 
 /**
  * [7] QName ::= PrefixedName
@@ -55,3 +49,9 @@ prefix : nCName ;
 
 /** [11] LocalPart ::= NCName */
 localPart : nCName ;
+
+/** [5] NCNameChar ::= NameChar - ':' */
+NCNameChar : NameChar { !getText().equals(":") }? ;
+
+/** [6] NCNameStartChar ::= NameStartChar - ':' */
+NCNameStartChar : NameStartChar { !getText().equals(":") }? ;
