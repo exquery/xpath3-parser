@@ -38,7 +38,7 @@
     </licenses>
     
     <properties>
-        <antlr.version>4.8-1</antlr.version>
+        <antlr.version>4.10.1</antlr.version>
         <java.source>1.7</java.source>
         <java.target>1.7</java.target>
         <sourceEncoding>UTF-8</sourceEncoding>
